@@ -1,7 +1,7 @@
 version: "3.1"
 
 # networks:
-#  kong-net:
+#  etcd-net:
 #   driver: bridge
 
 volumes:
@@ -23,8 +23,6 @@ services:
     #   - "2380:2380"
     #   - "4001:4001"
     #   - "7001:7001"
-    # environment:
-    #   - ALLOW_NONE_AUTHENTICATION=yes
     volumes:
       - etcd_data0:/data
   etcd1:
@@ -37,8 +35,6 @@ services:
     #   - "2380:2380"
     #   - "4001:4001"
     #   - "7001:7001"
-    # environment:
-    #   - ALLOW_NONE_AUTHENTICATION=yes
     volumes:
       - etcd_data1:/data
   etcd2:
@@ -51,8 +47,6 @@ services:
     #   - "2380:2380"
     #   - "4001:4001"
     #   - "7001:7001"
-    # environment:
-    #   - ALLOW_NONE_AUTHENTICATION=yes
     volumes:
       - etcd_data2:/data
   haproxy:
