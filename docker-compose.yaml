@@ -1,0 +1,75 @@
+version: "3.1"
+
+# networks:
+#  kong-net:
+#   driver: bridge
+
+volumes:
+  etcd_data0:
+    driver: local
+  etcd_data1:
+    driver: local
+  etcd_data2:
+    driver: local
+
+services:
+  etcd0:
+    image: elcolio/etcd:latest
+    restart: always
+    # command: "--name etcd0 --heartbeat-interval 100 --election-timeout 1000 --listen-peer-urls http://0.0.0.0:2380 --listen-client-urls http://0.0.0.0:2379 --initial-advertise-peer-urls http://etcd0:2380 --advertise-client-urls http://etcd0:2379 --initial-cluster etcd0=http://etcd0:2380,etcd1=http://etcd1:2380,etcd2=http://etcd2:2380 --initial-cluster-state new"
+    command: "--name etcd0 --heartbeat-interval 100 --election-timeout 1000 --listen-peer-urls http://0.0.0.0:2380 --listen-client-urls http://0.0.0.0:2379 --initial-advertise-peer-urls http://etcd0:2380 --advertise-client-urls http://etcd0:2379 --initial-cluster etcd0=http://etcd0:2380,etcd1=http://etcd1:2380,etcd2=http://etcd2:2380 --initial-cluster-state new"
+    # ports:
+    #   - "2379:2379"
+    #   - "2380:2380"
+    #   - "4001:4001"
+    #   - "7001:7001"
+    # environment:
+    #   - ALLOW_NONE_AUTHENTICATION=yes
+    volumes:
+      - etcd_data0:/data
+  etcd1:
+    image: elcolio/etcd:latest
+    restart: always
+    # command: "--name etcd0 --heartbeat-interval 100 --election-timeout 1000 --listen-peer-urls http://0.0.0.0:2380 --listen-client-urls http://0.0.0.0:2379 --initial-advertise-peer-urls http://etcd0:2380 --advertise-client-urls http://etcd0:2379 --initial-cluster etcd0=http://etcd0:2380,etcd1=http://etcd1:2380,etcd2=http://etcd2:2380 --initial-cluster-state new"
+    command: "--name etcd1 --heartbeat-interval 100 --election-timeout 1000 --listen-peer-urls http://0.0.0.0:2380 --listen-client-urls http://0.0.0.0:2379 --initial-advertise-peer-urls http://etcd1:2380 --advertise-client-urls http://etcd1:2379 --initial-cluster etcd0=http://etcd0:2380,etcd1=http://etcd1:2380,etcd2=http://etcd2:2380 --initial-cluster-state new"
+    # ports:
+    #   - "2379:2379"
+    #   - "2380:2380"
+    #   - "4001:4001"
+    #   - "7001:7001"
+    # environment:
+    #   - ALLOW_NONE_AUTHENTICATION=yes
+    volumes:
+      - etcd_data1:/data
+  etcd2:
+    image: elcolio/etcd:latest
+    restart: always
+    # command: "--name etcd0 --heartbeat-interval 100 --election-timeout 1000 --listen-peer-urls http://0.0.0.0:2380 --listen-client-urls http://0.0.0.0:2379 --initial-advertise-peer-urls http://etcd0:2380 --advertise-client-urls http://etcd0:2379 --initial-cluster etcd0=http://etcd0:2380,etcd1=http://etcd1:2380,etcd2=http://etcd2:2380 --initial-cluster-state new"
+    command: "--name etcd2 --heartbeat-interval 100 --election-timeout 1000 --listen-peer-urls http://0.0.0.0:2380 --listen-client-urls http://0.0.0.0:2379 --initial-advertise-peer-urls http://etcd2:2380 --advertise-client-urls http://etcd2:2379 --initial-cluster etcd0=http://etcd0:2380,etcd1=http://etcd1:2380,etcd2=http://etcd2:2380 --initial-cluster-state new"
+    # ports:
+    #   - "2379:2379"
+    #   - "2380:2380"
+    #   - "4001:4001"
+    #   - "7001:7001"
+    # environment:
+    #   - ALLOW_NONE_AUTHENTICATION=yes
+    volumes:
+      - etcd_data2:/data
+  haproxy:
+    image: haproxy:latest
+    restart: always
+    volumes:
+      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
+    ports:
+      - "2379:2379"
+      - "2380:2380"
+      - "4001:4001"
+      - "7001:7001"
+    links:
+      - etcd0
+      - etcd1
+      - etcd2
+    depends_on:
+      - etcd0
+      - etcd1
+      - etcd2
