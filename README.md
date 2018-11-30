@@ -4,6 +4,7 @@ Etcd, the Distributed Key-Value Store
 https://thenewstack.io/about-etcd-the-distributed-key-value-store-used-for-kubernetes-googles-cluster-container-manager/
 
 1. version check
+
 ```
 $ curl -L http://127.0.0.1:2379/version
 etcd 2.0.10
@@ -19,6 +20,7 @@ etcd 2.0.10
 ```
 
 2. health check
+
 ```
 # curl -L http://etcd0:2379/health
 {"health": "true"}
@@ -31,6 +33,7 @@ etcd 2.0.10
 ```
 
 3. Leader check
+
 ```
 $ curl -L http://etcd0:2379/v2/stats/leader
 {"message":"not current leader"}
@@ -89,6 +92,7 @@ $ curl http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hello world"
 ```
 
 5. Get the value of the key
+
 ```
 $ curl http://127.0.0.1:2379/v2/keys/msg
 {
@@ -102,7 +106,8 @@ $ curl http://127.0.0.1:2379/v2/keys/msg
 }
 ```
 
-5. Change the Value of the Key
+6. Change the Value of the Key
+
 ```
 $ curl http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hi Globe"
 {
@@ -122,7 +127,8 @@ $ curl http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hi Globe"
 }
 ```
 
-6. Delete the Key
+7. Delete the Key
+
 ```
 $ curl http://127.0.0.1:2379/v2/keys/msg -XDELETE
 {
@@ -141,7 +147,8 @@ $ curl http://127.0.0.1:2379/v2/keys/msg -XDELETE
 }
 ```
 
-7. Key TTL( Time to Live)
+8. Key TTL( Time to Live)
+
 ```
 $ curl http://127.0.0.1:2379/v2/keys/msgs -XPUT -d value=hi -d ttl=5
 {
@@ -165,7 +172,8 @@ $ curl http://127.0.0.1:2379/v2/keys/msgs
 }
 ```
 
-8. unset the TTL (can update before key expire only)
+9. unset the TTL (can update before key expire only)
+
 ```
 $ curl http://127.0.0.1:2379/v2/keys/msgs -XPUT -d value=hi -d ttl= -d prevExist=true
 {
