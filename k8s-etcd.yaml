@@ -1,3 +1,14 @@
+##### Google StorageClass #####
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1beta1
+metadata:
+  name: gcp-storage
+provisioner: kubernetes.io/gce-pd
+parameters:
+  # type: pd-ssd
+  type: pd-standard # Default
+
 ##### etcd persistent volume claims #####
 ---
 apiVersion: v1
