@@ -1,6 +1,6 @@
 # etcd
 
-Etcd, the Distributed Key-Value Store
+Etcd is a distributed key value store that provides a reliable way to store data across a cluster of machines. It’s open-source and available on GitHub. etcd gracefully handles leader elections during network partitions and will tolerate machine failure, including the leader. https://coreos.com/etcd/
 https://thenewstack.io/about-etcd-the-distributed-key-value-store-used-for-kubernetes-googles-cluster-container-manager/
 
 1. version check
@@ -79,7 +79,7 @@ https://poweruphosting.com/blog/etcd-tutorial/
 4. Put Key/Value
 
 ```
-$ curl http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hello world"
+$ curl -L http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hello world"
 {
   "action":"set",
   "node": {
@@ -94,7 +94,7 @@ $ curl http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hello world"
 5. Get the value of the key
 
 ```
-$ curl http://127.0.0.1:2379/v2/keys/msg
+$ curl -L http://127.0.0.1:2379/v2/keys/msg
 {
   "action":"get",
   "node": {
@@ -109,7 +109,7 @@ $ curl http://127.0.0.1:2379/v2/keys/msg
 6. Change the Value of the Key
 
 ```
-$ curl http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hi Globe"
+$ curl -L http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hi Globe"
 {
   "action":"set",
   "node": {
@@ -130,7 +130,7 @@ $ curl http://127.0.0.1:2379/v2/keys/msg -XPUT -d value="Hi Globe"
 7. Delete the Key
 
 ```
-$ curl http://127.0.0.1:2379/v2/keys/msg -XDELETE
+$ curl -L http://127.0.0.1:2379/v2/keys/msg -XDELETE
 {
   "action":"delete",
   "node":{
@@ -150,7 +150,7 @@ $ curl http://127.0.0.1:2379/v2/keys/msg -XDELETE
 8. Key TTL( Time to Live)
 
 ```
-$ curl http://127.0.0.1:2379/v2/keys/msgs -XPUT -d value=hi -d ttl=5
+$ curl -L http://127.0.0.1:2379/v2/keys/msgs -XPUT -d value=hi -d ttl=5
 {
   "action":"set",
   "node": {
@@ -163,7 +163,7 @@ $ curl http://127.0.0.1:2379/v2/keys/msgs -XPUT -d value=hi -d ttl=5
   }
 }
 
-$ curl http://127.0.0.1:2379/v2/keys/msgs
+$ curl -L http://127.0.0.1:2379/v2/keys/msgs
 {
   "errorCode":100,
   "message":"Key not found",
@@ -175,7 +175,7 @@ $ curl http://127.0.0.1:2379/v2/keys/msgs
 9. unset the TTL (can update before key expire only)
 
 ```
-$ curl http://127.0.0.1:2379/v2/keys/msgs -XPUT -d value=hi -d ttl= -d prevExist=true
+$ curl -L http://127.0.0.1:2379/v2/keys/msgs -XPUT -d value=hi -d ttl= -d prevExist=true
 {
   "action":"update",
   "node": {
